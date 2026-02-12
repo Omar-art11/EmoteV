@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uñas Interactivas 💅❤️</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: #ffe6f0;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  h1 {
+    color: #ff1a75;
+    font-size: 36px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .uñas {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+
+  .uñita {
+    width: 50px;
+    height: 80px;
+    border-radius: 25px;
+    background: #ff99c8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s, background 0.5s;
+  }
+
+  .uñita:hover {
+    transform: scale(1.2) rotate(5deg);
+  }
+
+  .corazon {
+    position: absolute;
+    font-size: 20px;
+    color: red;
+    animation: parpadear 1.5s infinite;
+    pointer-events: none;
+  }
+
+  @keyframes parpadear {
+    0%,100% {opacity: 1;}
+    50% {opacity: 0.5;}
+  }
+
+  .mensaje {
+    font-size: 22px;
+    color: #ff3366;
+    text-align: center;
+    max-width: 400px;
+    min-height: 40px;
+    margin-bottom: 20px;
+    transition: opacity 0.5s;
+  }
+
+  #contador {
+    font-size: 20px;
+    color: #d6006c;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .corazon-cayendo {
+    position: absolute;
+    font-size: 20px;
+    color: red;
+    animation: caer 4s linear forwards;
+    pointer-events: none;
+  }
+
+  @keyframes caer {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(600px); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<h1>❤️Una Historia En Proceso❤️</h1>
+
+<div class="uñas">
+  <div class="uñita" data-mensaje="💖Mi lugar feliz es a tu lado💖"></div>
+  <div class="uñita" data-mensaje="💕Eres la razón de mis sonrisas💕"></div>
+  <div class="uñita" data-mensaje="✨Cada momento contigo es mágico✨"></div>
+  <div class="uñita" data-mensaje="💕Gracias por hacerme feliz todos los días💕"></div>
+  <div class="uñita" data-mensaje="💖Gracias por ser mi todo💖"></div>
+</div>
+
+<div class="mensaje" id="mensaje"></div>
+<div id="contador"></div>
+
+<script>
+  // Contador desde fecha especial
+  const fecha = new Date("2025-10-15T00:00:00");
+  const contador = document.getElementById("contador");
+
+  function actualizarContador() {
+    const ahora = new Date();
+    let diff = Math.floor((ahora - fecha) / 1000);
+    const dias = Math.floor(diff / (3600*24));
+    diff -= dias*3600*24;
+    const horas = Math.floor(diff / 3600);
+    diff -= horas*3600;
+    const minutos = Math.floor(diff / 60);
+    const segundos = diff - minutos*60;
+    contador.innerText = `${dias} días ${horas}h ${minutos}m ${segundos}s juntos ❤️`;
+  }
+  setInterval(actualizarContador, 1000);
+  actualizarContador();
+
+  // Pintar uñas aleatoriamente
+  const colores = ['#ff99c8','#ff66b2','#ff1a75','#ff4d94','#ff80aa'];
+  const uñas = document.querySelectorAll('.uñita');
+
+  setInterval(() => {
+    uñas.forEach(uña => {
+      const color = colores[Math.floor(Math.random()*colores.length)];
+      uña.style.background = color;
+    });
+  }, 1000);
+
+  // Corazones cayendo
+  function crearCorazonCayendo() {
+    const c = document.createElement('div');
+    c.className = 'corazon-cayendo';
+    c.innerText = '❤️';
+    c.style.left = Math.random()*window.innerWidth + 'px';
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 4000);
+  }
+  setInterval(crearCorazonCayendo, 500);
+
+  // Corazones dentro de las uñas
+  uñas.forEach(uña => {
+    const heart = document.createElement('span');
+    heart.className = 'corazon';
+    heart.innerText = '❤️';
+    uña.appendChild(heart);
+  });
+
+  // Mostrar/ocultar mensaje al hacer clic en la uña
+  const mensajeDiv = document.getElementById('mensaje');
+  uñas.forEach(uña => {
+    uña.addEventListener('click', () => {
+      if (mensajeDiv.innerText === uña.getAttribute('data-mensaje')) {
+        // Si el mensaje ya está, se oculta
+        mensajeDiv.innerText = '';
+      } else {
+        // Si no, se muestra
+        mensajeDiv.innerText = uña.getAttribute('data-mensaje');
+      }
+    });
+  });
+
+</script>
+
+</body>
+</html>
